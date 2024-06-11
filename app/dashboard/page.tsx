@@ -1,0 +1,249 @@
+"use client"
+import DashboardLayout from '@/components/DashboardLayout'
+import Navbar from '@/components/Navbar'
+import { Button } from '@/components/ui/button'
+import { useUser } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import axios from "axios"
+
+
+const Dashboard = () => {
+  const { user } = useUser();
+  const router = useRouter();
+  if (!user) {
+    router.push("/login")
+  }
+
+  useEffect(()=>{
+     const fetchData = async()=>{
+      const req = await axios.get("/api/products")
+      const data = await req.data
+      console.log(data)
+     }
+     fetchData();
+  },[])
+  const paintingCategories: String[] = [
+    "Abstract",
+    "Abstract Expressionism",
+    "Academic Art",
+    "Aestheticism",
+    "Art Deco",
+    "Art Nouveau",
+    "Baroque",
+    "Bauhaus",
+    "Byzantine",
+    "Classical",
+    "Conceptual Art",
+    "Constructivism",
+    "Cubism",
+    "Dada",
+    "Digital Art",
+    "Expressionism",
+    "Fauvism",
+    "Futurism",
+    "Geometric Abstraction",
+    "Gothic Art",
+    "Graffiti Art",
+    "Hyperrealism",
+    "Impressionism",
+    "Installation Art",
+    "Land Art",
+    "Mannerism",
+    "Minimalism",
+    "Modernism",
+    "Naive Art",
+    "Neo-Classicism",
+    "Neo-Expressionism",
+    "Op Art",
+    "Performance Art",
+    "Photorealism",
+    "Pop Art",
+    "Post-Impressionism",
+    "Precisionism",
+    "Pre-Raphaelite",
+    "Realism",
+    "Renaissance",
+    "Rococo",
+    "Romanticism",
+    "Street Art",
+    "Surrealism",
+    "Symbolism"
+  ];
+
+  const [formData, setFormData] = useState({
+    artistName: "",
+    artistId: user?.id,
+    description: "",
+    price: 0,
+    category: ""
+  })
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const PostNewArt = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await axios.post("/api/postart", {
+      artistId: formData.artistId,
+      artistName: formData.artistName,
+      category: formData.category,
+      image: image,
+      description: formData.description,
+      price: formData.price
+    })
+    console.log("Form Submitted")
+  }
+
+
+  return (
+    <main>
+      <header className='dark'>
+        <Navbar />
+      </header>
+      <section>
+        <div>
+          {/* <div className="sm:flex sm:flex-row">
+            <div className='flex flex-col '>
+              <div className='sm:py-10 sm:px-5 border border-black'>
+                <Link href={"/dashboard"}>
+                  Home
+                </Link>
+              </div>
+              <div className='sm:py-10 sm:px-5 border border-black'>
+                <Link href={"/dashboard"}>
+                  Gallery
+                </Link>
+              </div>
+              <div className='sm:py-10 sm:px-5 border border-black'>
+                <Link href={"/dashboard"}>
+                  Favourites
+                </Link>
+              </div>
+              <div className='sm:py-10 sm:px-5 border border-black'>
+                <Link href={"/dashboard"}>
+                  Orders
+                </Link>
+              </div>
+            </div>
+          </div> */}
+          <DashboardLayout>
+            <div>
+              <div className='sm:flex sm:flex-row'>
+                <div className='sm:w-11/12'>
+                  <h1 className="text-2xl font-bold">
+                    Hello! {user?.fullName}
+                  </h1>
+                  <p className="mt-4">Welcome to your Dashboard</p>
+                </div>
+                <div>
+                  <Sheet>
+                    <SheetTrigger>
+                      <div className='p-4 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90'>Add
+                        <img width="20" className='ml-2' height="20" src="https://img.icons8.com/nolan/64/plus-math.png" alt="plus-math" />
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Sell Your Art</SheetTitle>
+                        <SheetDescription>
+                          <form onSubmit={PostNewArt}>
+                            <Label htmlFor="name">Name</Label>
+                            <Input onChange={(e) => {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  artistName: e.target.value
+                                }
+                              })
+                            }} required id="name" type="text" placeholder='Enter your Name' /><br />
+                            <Label htmlFor="desc">Description</Label>
+                            <Textarea onChange={(e) => {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  description: e.target.value
+                                }
+                              })
+                            }} required id='desc' placeholder='Details about the art' /><br />
+                            <Label htmlFor="picture">Picture</Label>
+                            <Input onChange={handleImageChange} required id="picture" type="file" /><br />
+                            <Label htmlFor="name">Price</Label>
+                            <Input onChange={(e) => {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  price: parseInt(e.target.value)
+                                }
+                              })
+                            }} required id="name" type="text" placeholder='Enter price in rupees ' /><br />
+                            <Label>Category</Label>
+                            <Select onValueChange={(val) => {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  category: val
+                                }
+                              })
+                            }} required>
+                              <SelectTrigger className="w-[200px]">
+                                <SelectValue placeholder="Select paint category" />
+                              </SelectTrigger>
+                              <SelectContent className='bg-white'>
+                                <SelectGroup>
+                                  <SelectLabel>Category</SelectLabel>
+                                  {paintingCategories.map((el) => {
+                                    return <SelectItem value={`${el}`}>{el}</SelectItem>
+                                  })}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                            <br />
+                            <Button type='submit'>
+                              Add
+                            </Button>
+                          </form>
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
+
+                </div>
+              </div>
+            </div>
+          </DashboardLayout>
+        </div>
+      </section>
+    </main>
+  )
+}
+
+export default Dashboard
