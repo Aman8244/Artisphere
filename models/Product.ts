@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export const ProductSchema = new mongoose.Schema({
     artistId:String,
+    artName:String,
     artistName:String,
     image: String,
     description: String,
@@ -25,4 +26,4 @@ export const ProductSchema = new mongoose.Schema({
       }
 })
 
-export const Product = mongoose.models.artproduct || mongoose.model("artproduct",ProductSchema);
+export const Product = mongoose.models.product || mongoose.model("product",ProductSchema);

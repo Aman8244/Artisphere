@@ -26,6 +26,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import axios from "axios"
+import FetchProducts from '@/helpers/fetchProducts'
+import ProductCard from '@/components/ProductCard'
 
 
 const Dashboard = () => {
@@ -34,15 +36,11 @@ const Dashboard = () => {
   if (!user) {
     router.push("/login")
   }
+  const [products, setProducts] = useState([]);
 
-  useEffect(()=>{
-     const fetchData = async()=>{
-      const req = await axios.get("/api/products")
-      const data = await req.data
-      console.log(data)
-     }
-     fetchData();
-  },[])
+  useEffect(() => {
+    FetchProducts(setProducts);
+  }, [])
   const paintingCategories: String[] = [
     "Abstract",
     "Abstract Expressionism",
@@ -90,7 +88,7 @@ const Dashboard = () => {
     "Surrealism",
     "Symbolism"
   ];
-
+  console.log(products)
   const [formData, setFormData] = useState({
     artistName: "",
     artistId: user?.id,
@@ -184,7 +182,16 @@ const Dashboard = () => {
                                   artistName: e.target.value
                                 }
                               })
-                            }} required id="name" type="text" placeholder='Enter your Name' /><br />
+                            }} required id="name" type="text" placeholder='Enter Your Name' /><br />
+                            <Label htmlFor="artname">Art Name</Label>
+                            <Input onChange={(e) => {
+                              setFormData((prev) => {
+                                return {
+                                  ...prev,
+                                  artName: e.target.value
+                                }
+                              })
+                            }} required id="artname" type="text" placeholder='Enter Art Name' /><br />
                             <Label htmlFor="desc">Description</Label>
                             <Textarea onChange={(e) => {
                               setFormData((prev) => {
@@ -238,6 +245,13 @@ const Dashboard = () => {
 
                 </div>
               </div>
+              <section>
+                <div>
+                  <div>
+                    <ProductCard productArray={products}/>
+                  </div>
+                </div>
+              </section>
             </div>
           </DashboardLayout>
         </div>
