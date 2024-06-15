@@ -2,18 +2,12 @@
 import React from 'react';
 import { Separator } from "@/components/ui/separator"
 import Link from 'next/link';
-import { useState,useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-
-  const [pathname, setPathname] = useState<string>('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setPathname(window.location.pathname);
-    }
-  }, []);
-
+  const path = usePathname()
+  const pathname: String = path;
+  
   const isActive = (path: string) => pathname === path;
 
   return (

@@ -28,11 +28,14 @@ import {
 import axios from "axios"
 import FetchProducts from '@/helpers/fetchProducts'
 import ProductCard from '@/components/ProductCard'
+import { useToast } from "@/components/ui/use-toast"
 
 
 const Dashboard = () => {
   const { user } = useUser();
   const router = useRouter();
+  const { toast } = useToast();
+
   if (!user) {
     router.push("/login")
   }
@@ -93,8 +96,9 @@ const Dashboard = () => {
     artistName: "",
     artistId: user?.id,
     description: "",
-    price: 0,
-    category: ""
+    price: "",
+    category: "",
+    artName:""
   })
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -116,9 +120,33 @@ const Dashboard = () => {
       category: formData.category,
       image: image,
       description: formData.description,
-      price: formData.price
+      price: parseInt(formData.price),
+      artName:formData.artName
+    }).then(res => {
+      toast({
+        title: "Success",
+        description: "Successfully Added The Product"
+      })
+      setFormData({
+        artistName: "",
+        artistId: user?.id,
+        description: "",
+        price: "",
+        category: "",
+        artName:""
+      })
+      setImage("")
+      console.log(res)
+    }).catch((err) => {
+      toast({
+        title: "Error Occured ",
+        description: "Please Try Again ",
+        variant: "destructive"
+      })
+      console.log(err)
     })
     console.log("Form Submitted")
+
   }
 
 
@@ -160,7 +188,6 @@ const Dashboard = () => {
                   <h1 className="text-2xl font-bold">
                     Hello! {user?.fullName}
                   </h1>
-                  <p className="mt-4">Welcome to your Dashboard</p>
                 </div>
                 <div>
                   <Sheet>
@@ -182,7 +209,7 @@ const Dashboard = () => {
                                   artistName: e.target.value
                                 }
                               })
-                            }} required id="name" type="text" placeholder='Enter Your Name' /><br />
+                            }} value={formData.artistName} required id="name" type="text" placeholder='Enter Your Name' /><br />
                             <Label htmlFor="artname">Art Name</Label>
                             <Input onChange={(e) => {
                               setFormData((prev) => {
@@ -191,7 +218,7 @@ const Dashboard = () => {
                                   artName: e.target.value
                                 }
                               })
-                            }} required id="artname" type="text" placeholder='Enter Art Name' /><br />
+                            }} value={formData.artName} required id="artname" type="text" placeholder='Enter Art Name' /><br />
                             <Label htmlFor="desc">Description</Label>
                             <Textarea onChange={(e) => {
                               setFormData((prev) => {
@@ -200,7 +227,7 @@ const Dashboard = () => {
                                   description: e.target.value
                                 }
                               })
-                            }} required id='desc' placeholder='Details about the art' /><br />
+                            }} value={formData.description} required id='desc' placeholder='Details about the art' /><br />
                             <Label htmlFor="picture">Picture</Label>
                             <Input onChange={handleImageChange} required id="picture" type="file" /><br />
                             <Label htmlFor="name">Price</Label>
@@ -208,10 +235,10 @@ const Dashboard = () => {
                               setFormData((prev) => {
                                 return {
                                   ...prev,
-                                  price: parseInt(e.target.value)
+                                  price: e.target.value
                                 }
                               })
-                            }} required id="name" type="text" placeholder='Enter price in rupees ' /><br />
+                            }} value={formData.price} required id="name" type="text" placeholder='Enter price in rupees ' /><br />
                             <Label>Category</Label>
                             <Select onValueChange={(val) => {
                               setFormData((prev) => {
@@ -220,15 +247,15 @@ const Dashboard = () => {
                                   category: val
                                 }
                               })
-                            }} required>
+                            }} value={formData.category} required>
                               <SelectTrigger className="w-[200px]">
                                 <SelectValue placeholder="Select paint category" />
                               </SelectTrigger>
                               <SelectContent className='bg-white'>
                                 <SelectGroup>
                                   <SelectLabel>Category</SelectLabel>
-                                  {paintingCategories.map((el) => {
-                                    return <SelectItem value={`${el}`}>{el}</SelectItem>
+                                  {paintingCategories.map((el, key) => {
+                                    return <SelectItem key={key} value={`${el}`}>{el}</SelectItem>
                                   })}
                                 </SelectGroup>
                               </SelectContent>
@@ -248,7 +275,7 @@ const Dashboard = () => {
               <section>
                 <div>
                   <div>
-                    <ProductCard productArray={products}/>
+                    <ProductCard productArray={products} />
                   </div>
                 </div>
               </section>

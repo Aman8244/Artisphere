@@ -23,7 +23,9 @@ export async function POST(req: NextRequest) {
         artistName:data?.artistName,
         image:data?.image,
         description:data?.description,
-        category:data?.category
+        category:data?.category,
+        price:data?.price,
+        artName:data?.artName
     })
     await temp.save();
 
