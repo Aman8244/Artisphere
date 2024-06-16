@@ -53,7 +53,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
           </ul>
         </nav>
       </aside>
-      <main className="flex-1 min-h-[1200px] p-4">
+      <main className="flex-1 p-4">
         {children}
       </main>
     </div>

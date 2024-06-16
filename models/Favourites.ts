@@ -1,9 +1,14 @@
 import mongoose from "mongoose";
-import { ProductSchema } from "./Product";
 
 const FavouritesSchema = new mongoose.Schema({
     userId:String,
-    items:[ProductSchema],
+    artistId:String,
+    artName:String,
+    artistName:String,
+    image: String,
+    description: String,
+    price: Number,
+    category:String,
 })
 
-export const Favourites = mongoose.models.favourite || mongoose.model("favourite",FavouritesSchema);
+export const Favourites = mongoose.models.favouriteart || mongoose.model("favouriteart",FavouritesSchema);

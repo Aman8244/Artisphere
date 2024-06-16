@@ -277,6 +277,7 @@ const Dashboard = () => {
                   <div>
                     <ProductCard productArray={products} />
                   </div>
+                  
                 </div>
               </section>
             </div>

@@ -10,7 +10,13 @@ const Favourites = () => {
             <section>
                 <DashboardLayout>
                     <div>
-                        Favourites
+                        <div>
+                            <div>
+                                <h1 className='md:text-2xl '>
+                                    Favourites
+                                </h1>
+                            </div>
+                        </div>
                     </div>
                 </DashboardLayout>
             </section>

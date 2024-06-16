@@ -6,6 +6,5 @@ export default async function FetchProductDetail (artistId:String,artName:String
         artName:artName
     });
     const data = res.data;
-    console.log(data)
-    handlerfunction(data);
+    handlerfunction(data.data);
 }
