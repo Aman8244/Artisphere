@@ -3,7 +3,7 @@ import DashboardLayout from '@/components/DashboardLayout'
 import Navbar from '@/components/Navbar'
 import FetchProductDetail from '@/helpers/fetchProductDetail'
 import Image from 'next/image'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from '@/components/ui/button'
@@ -12,7 +12,7 @@ import { useAuth } from '@clerk/nextjs'
 import { toast } from '@/components/ui/use-toast'
 
 
-interface ProductInterface {
+export interface ProductInterface {
     _id: string;
     artistId: string;
     artName: string;
@@ -38,6 +38,8 @@ const PaintingDetail = () => {
         FetchProductDetail(artistId, artName!, setProductDetail);
     }, [])
     const imgUrl = productDetail?.image ? productDetail?.image : "";
+    const router = useRouter();
+
     const AddToFavourite = async () => {
         const response = await axios.post("/api/checkitem/favourite", {
             artistId,
@@ -70,6 +72,8 @@ const PaintingDetail = () => {
             })
         }
     }
+
+
     return (
         <main>
             <header className='dark'>
@@ -130,7 +134,7 @@ const PaintingDetail = () => {
                                                         <Button onClick={AddToFavourite} className='rounded bg-orange-400 border-white ' variant={'outline'}>Add To Favourites</Button>
                                                     </div>
                                                     <div>
-                                                        <Button className='rounded bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
+                                                        <Button onClick={()=>router.push(`/checkout/${productDetail.artName}/${productDetail.artistId}`)} className='rounded bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
                                                     </div>
                                                 </div>
                                                 <div className='md:mt-10'>

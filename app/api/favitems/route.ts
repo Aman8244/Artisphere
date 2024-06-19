@@ -1,5 +1,4 @@
-import dbConfig from "@/dbConfig/dbConfig";
-import { Product } from "@/models/Product";
+import { Favourites } from "@/models/Favourites";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,16 +9,10 @@ export async function GET(req:NextRequest){
             error:"Unauthorised"
         })
     }
-    try {
-        await dbConfig();
-    } catch (error) {
-        return NextResponse.json({
-            error:error
-        })
-    }
-    const data = await Product.find({})
-    console.log(data)
+    const queryData = await Favourites.find({
+        userId:userId
+    })
     return NextResponse.json({
-        productItem:data
+        favItems:queryData
     })
 }

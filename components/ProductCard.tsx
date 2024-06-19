@@ -10,7 +10,7 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from './ui/skeleton';
-interface Product {
+export interface Product {
     _id: String,
     artistId: String,
     artName: String,
@@ -27,7 +27,7 @@ interface Product {
     }]
 }
 
-interface ProductCardProps {
+export interface ProductCardProps {
     productArray: Product[];
 }
 

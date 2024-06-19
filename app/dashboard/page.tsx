@@ -36,12 +36,12 @@ const Dashboard = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  if (!user) {
-    router.push("/login")
-  }
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    if (!user) {
+      router.push("/login")
+    }
     FetchProducts(setProducts);
   }, [])
   const paintingCategories: String[] = [
@@ -98,7 +98,7 @@ const Dashboard = () => {
     description: "",
     price: "",
     category: "",
-    artName:""
+    artName: ""
   })
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -121,7 +121,7 @@ const Dashboard = () => {
       image: image,
       description: formData.description,
       price: parseInt(formData.price),
-      artName:formData.artName
+      artName: formData.artName
     }).then(res => {
       toast({
         title: "Success",
@@ -133,7 +133,7 @@ const Dashboard = () => {
         description: "",
         price: "",
         category: "",
-        artName:""
+        artName: ""
       })
       setImage("")
       console.log(res)
@@ -277,7 +277,7 @@ const Dashboard = () => {
                   <div>
                     <ProductCard productArray={products} />
                   </div>
-                  
+
                 </div>
               </section>
             </div>
