@@ -31,7 +31,12 @@ const Search = () => {
                 image: searchString,
             }).then(res => {
                 console.log(res)
-                setSearchData(res.data?.productArray)
+                if (res.data?.productArray[0])
+                    setSearchData(res.data?.productArray)
+                else
+                    setSearchData([])
+            }).catch(() => {
+                setSearchData([])
             })
         }
         else {
@@ -39,7 +44,12 @@ const Search = () => {
                 searchString: searchString,
             }).then(res => {
                 console.log(res)
-                setSearchData(res.data?.productArray)
+                if (res.data?.productArray[0])
+                    setSearchData(res.data?.productArray)
+                else
+                    setSearchData([])
+            }).catch(() => {
+                setSearchData([])
             })
         }
         setLoading(false)
@@ -170,10 +180,17 @@ const Search = () => {
                                 <img height={200} src='/loading.webp' alt='loading bar' />
                             </div>
                             }
-                            {searchdata && <div>
+                            {(searchdata && searchdata[0]) ? <div>
                                 <ProductCard productArray={searchdata!} />
+                            </div> : <div>
+                                <div className=''>
+                                    <div className={loading ? "hidden" : "visible flex items-center justify-center min-h-[60vh]"}>
+                                        No Results Found !!
+                                    </div>
+                                </div>
                             </div>
                             }
+
 
                         </div>
                     </div>
