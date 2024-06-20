@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productArray }) => {
                             router.push(`/painting/${item.artistId}?artname=${item.artName}`)
                         }}>
                             <CardHeader>
-                                <Image className='w-full' src={item.image.toString()} alt='product' height={400} width={400} />
+                                <Image className='' src={item.image.toString()} alt='product' height={400} width={200} />
                             </CardHeader>
                             <CardContent>
                                 <CardTitle>
