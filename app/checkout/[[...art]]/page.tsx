@@ -52,16 +52,16 @@ const CheckoutPage = () => {
       <header className='dark'>
         <Navbar />
       </header>
-      <section>
+      <section className='min-h-[60vh]'>
         <div>
           <div>
             <div className='flex my-2 justify-center items-center'>
-              <h1 className='md:text-4xl font-semibold'>
+              <h1 className='text-2xl md:text-4xl font-semibold'>
                 Checkout
               </h1>
             </div>
-            <div className="flex my-6 justify-center items-center">
-              <div className='w-5/6'>
+            <div className="md:flex my-6 md:justify-center md:items-center">
+              <div className='w-full md:w-5/6'>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -73,7 +73,7 @@ const CheckoutPage = () => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-medium w-1/5 md:w-auto">
                         <img className='m-auto' height={50} width={50} src={`${checkoutItem?.image}`} alt='product-thumbnail' />
                       </TableCell>
                       <TableCell>

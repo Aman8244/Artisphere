@@ -25,7 +25,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
             </div>
             <li className="font-thin md:font-medium md:mb-4">
               <Link href="/dashboard/search" className={`block p-2 rounded hover:bg-gray-700 ${
-                  isActive('/dashboard/gallery') ? 'bg-gray-700' : 'hover:bg-gray-700'
+                  isActive('/dashboard/search') ? 'bg-gray-700' : 'hover:bg-gray-700'
                 }`}>
                 Search
               </Link>

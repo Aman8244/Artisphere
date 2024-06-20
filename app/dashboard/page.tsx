@@ -272,7 +272,7 @@ const Dashboard = () => {
 
                 </div>
               </div>
-              <section>
+              <section >
                 <div>
                   <div>
                     <ProductCard productArray={products} />

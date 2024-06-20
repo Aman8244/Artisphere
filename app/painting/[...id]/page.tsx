@@ -108,7 +108,7 @@ const PaintingDetail = () => {
                                 </div>
                                 <div className='md:w-2/3 md:p-8'>
                                     <div>
-                                        <h1 className='font-sans font-semibold text-2xl text-gray-900'>
+                                        <h1 className='font-sans font-semibold text-2xl my-4 text-gray-900'>
                                             {productDetail && productDetail.artName ?
                                                 productDetail.artName :
                                                 <div style={{ height: 100, width: 600, backgroundColor: '#e0e0e0' }}>
@@ -116,7 +116,7 @@ const PaintingDetail = () => {
                                                 </div>}
                                         </h1>
                                     </div>
-                                    <div className='md:mt-4 text-gray-500'>
+                                    <div className='my-4 text-gray-500'>
                                         <div>
                                             {productDetail && productDetail.description ?
                                                 productDetail.description
@@ -126,19 +126,18 @@ const PaintingDetail = () => {
                                                 </div>}
                                         </div>
                                     </div>
-                                    <div className='md:mt-10'>
+                                    <div >
                                         {productDetail && productDetail.price ?
-
                                             <div>
                                                 <div className='text-green-700 font-bold md:text-3xl'>
                                                     &#x20B9; {productDetail.price}
                                                 </div>
-                                                <div className="md:flex md:flex-row md:mt-8 md:space-x-6">
+                                                <div className="flex flex-row space-x-4 my-8 md:space-x-6">
                                                     <div>
-                                                        <Button onClick={AddToFavourite} className='rounded bg-orange-400 border-white ' variant={'outline'}>Add To Favourites</Button>
+                                                        <Button onClick={AddToFavourite} className='rounded hover:bg-orange-300  bg-orange-400 border-white ' variant={'outline'}>Add To Favourites</Button>
                                                     </div>
                                                     <div>
-                                                        <Button onClick={() => router.push(`/checkout/${productDetail.artName}/${productDetail.artistId}`)} className='rounded bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
+                                                        <Button onClick={() => router.push(`/checkout/${productDetail.artName}/${productDetail.artistId}`)} className='rounded hover:bg-purple-300 bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
                                                     </div>
                                                 </div>
                                                 <div className='md:mt-10'>

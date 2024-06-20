@@ -9,24 +9,24 @@ import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 const Search = () => {
-    const {userId} = useAuth();
+    const { userId } = useAuth();
     const [searchdata, setSearchData] = useState<Product[]>()
     const [searchString, setSearchString] = useState<string | null>("");
     const [state, setState] = useState(0);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const router = useRouter()
-    useEffect(()=>{
-        if(!userId){
+    useEffect(() => {
+        if (!userId) {
             router.push("/login")
         }
-    },[])
+    }, [])
     const HandleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        if(searchdata && searchdata[0]){
+        if (searchdata && searchdata[0]) {
             setLoading(false)
         }
-        if(state===1){
+        if (state === 1) {
             await axios.post(`/api/search`, {
                 image: searchString,
             }).then(res => {
@@ -34,7 +34,7 @@ const Search = () => {
                 setSearchData(res.data?.productArray)
             })
         }
-        else{
+        else {
             await axios.post(`/api/search`, {
                 searchString: searchString,
             }).then(res => {
@@ -67,7 +67,7 @@ const Search = () => {
                         <div>
                             {state === 0 ?
                                 <div className='flex justify-center flex-col'>
-                                    <form onSubmit={HandleSearch} className="max-w-md mx-auto">
+                                    <form onSubmit={HandleSearch} className="min-w-full md:max-w-md mx-auto">
                                         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                                         <div className="relative">
                                             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -111,10 +111,10 @@ const Search = () => {
                                 <div className='flex justify-center flex-col'>
                                     <form onSubmit={HandleSearch} className="max-w-md mx-auto flex flex-row">
 
-                                        <div className="flex items-center justify-center w-full mr-2">
+                                        <div className="flex flex-col md:flex-row items-center justify-center md:w-full mr-2">
                                             <label
                                                 htmlFor="dropzone-file"
-                                                className="flex flex-col items-center justify-center w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                                className="flex flex-col items-center justify-center md:w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
                                             >
                                                 <div className="flex flex-col items-center justify-center pt-1">
                                                     <svg
@@ -139,7 +139,7 @@ const Search = () => {
                                                         SVG, PNG, JPG or GIF (MAX. 800x400px)
                                                     </p> */}
                                                 </div>
-                                                <input id="dropzone-file"  onChange={HandleImageChange} type="file" className="" />
+                                                <input id="dropzone-file" onChange={HandleImageChange} type="file" className="" />
 
                                             </label>
                                             <button
@@ -165,15 +165,16 @@ const Search = () => {
                             }
 
                         </div>
-                        <div>
+                        <div className=''>
+                            {loading && <div className='flex justify-center  md:min-h-[60vh] items-center'>
+                                <img height={200} src='/loading.webp' alt='loading bar' />
+                            </div>
+                            }
                             {searchdata && <div>
                                 <ProductCard productArray={searchdata!} />
                             </div>
                             }
-                            {loading &&  <div className='flex justify-center min-h-[60vh] items-center'>
-                                <img height={200} src='/loading.webp' alt='loading bar'/>
-                            </div>
-                            }
+
                         </div>
                     </div>
                 </DashboardLayout>

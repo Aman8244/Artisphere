@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productArray }) => {
     const router = useRouter();
 
     return (
-        <div>
+        <div className='min-h-[60vh] my-4'>
             <div className='md:flex md:flex-row'>
                 {productArray ?
                     productArray.map((item, key) => {
@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productArray }) => {
                             router.push(`/painting/${item.artistId}?artname=${item.artName}`)
                         }}>
                             <CardHeader>
-                                <Image src={item.image.toString()} alt='product' height={400} width={200} />
+                                <Image className='w-full' src={item.image.toString()} alt='product' height={400} width={400} />
                             </CardHeader>
                             <CardContent>
                                 <CardTitle>

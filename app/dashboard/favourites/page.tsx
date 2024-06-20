@@ -62,7 +62,7 @@ const Favourites = () => {
                     <div>
                         <div>
                             <div>
-                                <h1 className='md:text-2xl md:my-4'>
+                                <h1 className='text-2xl my-4'>
                                     Favourites
                                 </h1>
                             </div>

@@ -35,7 +35,7 @@ const Orders = () => {
                     <div>
                         <div>
                             <div>
-                                <h1 className='md:text-2xl md:my-4'>
+                                <h1 className=' text-2xl md:text-2xl my-4'>
                                     Orders
                                 </h1>
                             </div>
@@ -49,7 +49,7 @@ const Orders = () => {
                                                         <CardHeader>
                                                             <Image onClick={() => {
                                                                 router.push(`/painting/${item.artistId}?artname=${item.artName}`)
-                                                            }} src={item.image.toString()} alt='product' height={400} width={200} />
+                                                            }} src={item.image.toString()} alt='product' height={400} width={400} />
                                                         </CardHeader>
                                                         <CardContent onClick={() => {
                                                             router.push(`/painting/${item.artistId}?artname=${item.artName}`)
