@@ -31,11 +31,19 @@ const Favourites = () => {
     }, [])
 
     const RemoveFavourite = async (artName: String) => {
+        if(data && data.favItems[0]){
+            data.favItems = data?.favItems?.filter((el)=>{
+                return el.artName !== artName 
+            })
+            console.log(data)
+            setData(data)
+            router.refresh()
+        }
         await axios.post("/api/removefav", {
             userId: userId,
             artName: artName
-        }).then((res)=>{
-            console.log("success",res)
+        }).then((res) => {
+            console.log("success", res)
         })
         router.replace("/dashboard/favourites")
     }
@@ -92,6 +100,15 @@ const Favourites = () => {
                                             })}
 
                                         </div>
+                                    }
+                                    {data && data.favItems && data.favItems[0] ? <></> : <div className='flex flex-col justify-center min-h-[60vh] items-center'>
+                                        <img className='max-h-[40vh]' src='/empty.webp' alt='loading bar' />
+                                        <div>
+                                            <Button className='bg-purple-500 text-white hover:bg-purple-300 hover:text-black' onClick={()=>{router.push("/dashboard")}}>
+                                                Go To Home
+                                            </Button>
+                                        </div>
+                                    </div>
                                     }
                                 </div>
                             </div>

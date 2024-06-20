@@ -11,15 +11,31 @@ const Gallery = () => {
     const [searchdata, setSearchData] = useState<Product[]>()
     const [searchString, setSearchString] = useState<string | null>("");
     const [state, setState] = useState(0);
+    const [loading,setLoading] = useState(false);
 
     const HandleSearch = async (e: React.FormEvent) => {
-        e.preventDefault()
-        await axios.post(`/api/search`,{
-             searchString:searchString
-        }).then(res => {
-            console.log(res)
-            setSearchData(res.data?.productArray)
-        })
+        e.preventDefault();
+        setLoading(true);
+        if(searchdata && searchdata[0]){
+            setLoading(false)
+        }
+        if(state===1){
+            await axios.post(`/api/search`, {
+                image: searchString,
+            }).then(res => {
+                console.log(res)
+                setSearchData(res.data?.productArray)
+            })
+        }
+        else{
+            await axios.post(`/api/search`, {
+                searchString: searchString,
+            }).then(res => {
+                console.log(res)
+                setSearchData(res.data?.productArray)
+            })
+        }
+        setLoading(false)
         console.log("form submitted")
     }
     const HandleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +132,7 @@ const Gallery = () => {
                                                         SVG, PNG, JPG or GIF (MAX. 800x400px)
                                                     </p> */}
                                                 </div>
-                                                <input id="dropzone-file" onChange={HandleImageChange} type="file" className="" />
+                                                <input id="dropzone-file"  onChange={HandleImageChange} type="file" className="" />
 
                                             </label>
                                             <button
@@ -143,9 +159,14 @@ const Gallery = () => {
 
                         </div>
                         <div>
-                            <div>
-                                <ProductCard productArray={searchdata!}/>
+                            {searchdata && <div>
+                                <ProductCard productArray={searchdata!} />
                             </div>
+                            }
+                            {loading &&  <div className='flex justify-center min-h-[60vh] items-center'>
+                                <img height={200} src='/loading.webp' alt='loading bar'/>
+                            </div>
+                            }
                         </div>
                     </div>
                 </DashboardLayout>
