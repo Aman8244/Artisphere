@@ -1,18 +1,25 @@
 "use client"
 import DashboardLayout from '@/components/DashboardLayout'
 import Navbar from '@/components/Navbar'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard, { Product } from '@/components/ProductCard';
 import axios from 'axios';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
-const Gallery = () => {
-
+const Search = () => {
+    const {userId} = useAuth();
     const [searchdata, setSearchData] = useState<Product[]>()
     const [searchString, setSearchString] = useState<string | null>("");
     const [state, setState] = useState(0);
     const [loading,setLoading] = useState(false);
-
+    const router = useRouter()
+    useEffect(()=>{
+        if(!userId){
+            router.push("/login")
+        }
+    },[])
     const HandleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -175,4 +182,4 @@ const Gallery = () => {
     )
 }
 
-export default Gallery
+export default Search

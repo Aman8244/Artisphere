@@ -14,6 +14,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import { toast } from '@/components/ui/use-toast'
+import { useAuth } from '@clerk/nextjs'
 
 const CheckoutPage = () => {
   const queryparams = useParams();
@@ -21,11 +25,28 @@ const CheckoutPage = () => {
   const artName = art[0].replaceAll("%20", " ");
   const artistId = art[1];
   const [checkoutItem, setCheckoutItem] = useState<ProductInterface>()
-  // console.log(artName,artistId)
+  const [clicked, setClicked] = useState(false);
+  const router = useRouter();
+  const {userId} = useAuth()
   useEffect(() => {
+    if(!userId){
+      router.push("/login")
+    }
+    else
     FetchProductDetail(artistId, artName, setCheckoutItem)
   }, [])
-
+  const handleBuy = async () => {
+    setClicked(true)
+    await axios.post("/api/orders", {
+      ...checkoutItem
+    }).then(res=>{
+      setClicked(false);
+      toast({
+        title:"Product is successfully purchased"
+      })
+      router.push("/dashboard")
+    })
+  }
   return (
     <main>
       <header className='dark'>
@@ -75,7 +96,7 @@ const CheckoutPage = () => {
             </div>
             <div className='flex justify-center'>
               <div className='w-5/6'>
-                <Button className='bg-purple-500 hover:bg-purple-300 w-full rounded-2xl text-white hover:text-black'>
+                <Button disabled={clicked} onClick={handleBuy} className='bg-purple-500 hover:bg-purple-300 w-full rounded-2xl text-white hover:text-black'>
                   Buy Now
                 </Button>
               </div>

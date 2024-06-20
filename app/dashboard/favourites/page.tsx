@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import axios from 'axios'
 import { useAuth } from '@clerk/nextjs'
-interface favDataProps {
+export interface favDataProps {
     userId: String,
     artistId: String,
     artName: String,
@@ -27,6 +27,10 @@ const Favourites = () => {
     const router = useRouter();
     const { userId } = useAuth()
     useEffect(() => {
+        if(!userId){
+            router.push("/login")
+        }
+        else
         FetchFavourite(setData);
     }, [])
 

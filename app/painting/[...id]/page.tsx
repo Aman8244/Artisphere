@@ -35,7 +35,11 @@ const PaintingDetail = () => {
     const artName = artquery.get("artname")
     const [productDetail, setProductDetail] = useState<ProductInterface>()
     useEffect(() => {
-        FetchProductDetail(artistId, artName!, setProductDetail);
+        if (!userId) {
+            router.push("/login")
+        }
+        else
+            FetchProductDetail(artistId, artName!, setProductDetail);
     }, [])
     const imgUrl = productDetail?.image ? productDetail?.image : "";
     const router = useRouter();
@@ -134,7 +138,7 @@ const PaintingDetail = () => {
                                                         <Button onClick={AddToFavourite} className='rounded bg-orange-400 border-white ' variant={'outline'}>Add To Favourites</Button>
                                                     </div>
                                                     <div>
-                                                        <Button onClick={()=>router.push(`/checkout/${productDetail.artName}/${productDetail.artistId}`)} className='rounded bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
+                                                        <Button onClick={() => router.push(`/checkout/${productDetail.artName}/${productDetail.artistId}`)} className='rounded bg-purple-400 border-white ' variant={'outline'}>Buy Now</Button>
                                                     </div>
                                                 </div>
                                                 <div className='md:mt-10'>
