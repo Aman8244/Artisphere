@@ -73,13 +73,13 @@ const CheckoutPage = () => {
                   </TableHeader>
                   <TableBody>
                     <TableRow>
-                      <TableCell className="font-medium w-1/5 md:w-auto">
+                      <TableCell className="font-medium w-1/6 md:w-auto">
                         <img className='m-auto' height={50} width={50} src={`${checkoutItem?.image}`} alt='product-thumbnail' />
                       </TableCell>
                       <TableCell>
                         {checkoutItem?.artName}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className='text-[11px]'>
                         &#x20B9; {checkoutItem?.price}
                       </TableCell>
                       <TableCell>
