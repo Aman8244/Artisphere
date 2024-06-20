@@ -165,7 +165,7 @@ const Search = () => {
                             }
 
                         </div>
-                        <div className=''>
+                        <div className='min-h-[60vh]'>
                             {loading && <div className='flex justify-center  md:min-h-[60vh] items-center'>
                                 <img height={200} src='/loading.webp' alt='loading bar' />
                             </div>
