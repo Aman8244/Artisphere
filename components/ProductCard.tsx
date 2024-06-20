@@ -39,11 +39,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ productArray }) => {
             <div className='md:flex md:flex-row'>
                 {productArray ?
                     productArray.map((item, key) => {
-                        return <Card key={key} className='mx-1' onClick={() => {
+                        return <Card key={key} className='mx-1 w-full md:w-1/3' onClick={() => {
                             router.push(`/painting/${item.artistId}?artname=${item.artName}`)
                         }}>
                             <CardHeader>
-                                <Image className='' src={item.image.toString()} alt='product' height={400} width={200} />
+                                <Image className='w-full' src={item.image.toString()} alt='product' height={400} width={200} />
                             </CardHeader>
                             <CardContent>
                                 <CardTitle>
